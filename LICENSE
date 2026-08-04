@@ -1,0 +1,15 @@
+Copyright (c) 2026 VAAS-X Ltd. All rights reserved.
+
+This repository contains documentation, examples, and issue tracking for
+the vaas-x SDK. It does not contain the source code of the vaas-x package
+itself, which is distributed exclusively as a compiled binary via PyPI
+(https://pypi.org/project/vaas-x/) under a separate proprietary license
+included with that distribution.
+
+The contents of this repository (documentation and example code) may be
+viewed, and example code may be copied and adapted for the purpose of
+integrating with the vaas-x SDK. No other use, reproduction, or
+redistribution is permitted without prior written permission from
+VAAS-X Ltd.
+
+For licensing enquiries, contact hello@vaasx.com.
