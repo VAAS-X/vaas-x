@@ -94,7 +94,6 @@ The retrieval substrate behind this server is the same one behind the `vaas-x` S
 
 - **14ms** mean retrieval across **1.18M** stored episodes, standard AWS CPU instance, no GPU
 - **100%** blind classification accuracy on NASA's CMAPSS FD001 predictive-maintenance benchmark (24 sensor channels, zero prior domain knowledge)
-- **0.8965 TS-AUC** on the CrunchDAO Structural Break challenge, vs. a 0.6907 baseline (independent, leaderboard-validated)
 
 Reproduction guides for each: [vaasx.com/guides](https://vaasx.com/guides)
 
