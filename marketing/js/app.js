@@ -5,6 +5,19 @@ import {
   STAGE_LABELS,
   STATUS_LABELS,
 } from "./funnel-data.js";
+import {
+  getPolicy,
+  proposeActions,
+  getQueue,
+  enqueueProposals,
+  approveItem,
+  rejectItem,
+  updateItem,
+  prepareRelease,
+  markReleased,
+  clearRejected,
+  resetToAwaiting,
+} from "./agent.js";
 
 const LINKS = {
   site: "https://vaasx.com",
@@ -443,6 +456,146 @@ function initContacts() {
   $("export-contacts").addEventListener("click", () => copyText(contactsCsv()));
 }
 
+function statusLabel(status) {
+  return (
+    {
+      awaiting_approval: "Awaiting your approval",
+      approved: "Approved — ready to release",
+      rejected: "Rejected",
+      released: "Released (not auto-sent)",
+    }[status] || status
+  );
+}
+
+function renderAgentQueue() {
+  const queue = getQueue();
+  const root = $("agent-queue");
+  if (!queue.length) {
+    root.innerHTML =
+      `<p class="hint">No drafts yet. Choose a funnel stage and click <strong>Propose drafts</strong>.</p>`;
+    return;
+  }
+  root.innerHTML = queue
+    .map(
+      (item) => `
+    <article class="agent-card status-${item.status}" data-id="${item.id}">
+      <div class="contact-top">
+        <strong>${item.title}</strong>
+        <span class="pill">${statusLabel(item.status)}</span>
+      </div>
+      <p class="contact-role">${item.target} · ${item.channel} · ${STAGE_LABELS[item.stage] || item.stage}</p>
+      <p class="contact-why">${item.note || ""}</p>
+      ${item.subject ? `<p class="agent-subject"><strong>Subject:</strong> ${item.subject}</p>` : ""}
+      <label class="agent-edit">
+        Edit draft
+        <textarea data-edit="${item.id}" rows="8">${item.body}</textarea>
+      </label>
+      <div class="agent-actions">
+        ${
+          item.status === "awaiting_approval"
+            ? `<button type="button" class="btn primary" data-approve="${item.id}">Approve</button>
+               <button type="button" class="btn ghost" data-reject="${item.id}">Reject</button>
+               <button type="button" class="btn ghost" data-save="${item.id}">Save edits</button>`
+            : ""
+        }
+        ${
+          item.status === "approved"
+            ? `<button type="button" class="btn primary" data-release="${item.id}">Release (copy / mail draft)</button>
+               <button type="button" class="btn ghost" data-unapprove="${item.id}">Back to approval</button>`
+            : ""
+        }
+        ${
+          item.status === "rejected"
+            ? `<button type="button" class="btn ghost" data-unapprove="${item.id}">Restore to approval</button>`
+            : ""
+        }
+        ${item.status === "released" ? `<span class="hint">Released locally — confirm you still sent manually if needed.</span>` : ""}
+      </div>
+    </article>`
+    )
+    .join("");
+}
+
+function initAgent() {
+  $("agent-policy").textContent = getPolicy();
+  renderAgentQueue();
+
+  $("agent-propose").addEventListener("click", () => {
+    const proposals = proposeActions({
+      focusStage: $("agent-stage").value,
+      max: Number($("agent-max").value) || 5,
+    });
+    enqueueProposals(proposals);
+    renderAgentQueue();
+    toast(`${proposals.length} drafts queued — none sent`);
+  });
+
+  $("agent-clear-rejected").addEventListener("click", () => {
+    clearRejected();
+    renderAgentQueue();
+    toast("Rejected cleared");
+  });
+
+  $("agent-queue").addEventListener("click", async (e) => {
+    const approve = e.target.closest("[data-approve]");
+    const reject = e.target.closest("[data-reject]");
+    const save = e.target.closest("[data-save]");
+    const release = e.target.closest("[data-release]");
+    const unapprove = e.target.closest("[data-unapprove]");
+
+    if (approve) {
+      const id = approve.dataset.approve;
+      const ta = document.querySelector(`textarea[data-edit="${id}"]`);
+      if (ta) updateItem(id, { body: ta.value });
+      approveItem(id);
+      renderAgentQueue();
+      toast("Approved — still not sent");
+      return;
+    }
+    if (reject) {
+      rejectItem(reject.dataset.reject);
+      renderAgentQueue();
+      toast("Rejected");
+      return;
+    }
+    if (save) {
+      const id = save.dataset.save;
+      const ta = document.querySelector(`textarea[data-edit="${id}"]`);
+      if (ta) updateItem(id, { body: ta.value });
+      renderAgentQueue();
+      toast("Edits saved");
+      return;
+    }
+    if (unapprove) {
+      resetToAwaiting(unapprove.dataset.unapprove);
+      renderAgentQueue();
+      toast("Back to awaiting approval");
+      return;
+    }
+    if (release) {
+      const id = release.dataset.release;
+      try {
+        const result = prepareRelease(id);
+        if (result.mode === "mailto") {
+          const ok = window.confirm(
+            `${result.warning}\n\nOpen mail draft now? (Still will NOT send until you click Send in your mail app.)`
+          );
+          if (!ok) return;
+          window.location.href = result.payload;
+        } else {
+          await navigator.clipboard.writeText(result.payload);
+          window.alert(result.warning);
+        }
+        markReleased(id);
+        renderAgentQueue();
+        toast("Released locally — not auto-sent");
+      } catch (err) {
+        window.alert(err.message || String(err));
+      }
+    }
+  });
+}
+
 function initDemo() {
   const scenario = $("demo-scenario");
   const query = $("demo-query");
@@ -513,6 +666,7 @@ function init() {
 
   initFunnel();
   initContacts();
+  initAgent();
   initDemo();
 }
 

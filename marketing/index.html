@@ -19,6 +19,7 @@
       <span class="brand-sub">Marketing Console</span>
     </a>
     <nav class="topnav">
+      <a href="#agent">Agent</a>
       <a href="#funnel">Funnel</a>
       <a href="#contacts">Contacts</a>
       <a href="#product">Product</a>
@@ -39,8 +40,8 @@
           persistent, outcome-grounded episodic memory for devices and AI agents.
         </p>
         <div class="cta-row">
-          <a class="btn primary" href="#funnel">Open funnel</a>
-          <a class="btn ghost" href="https://vaasx.com" target="_blank" rel="noopener">vaasx.com</a>
+          <a class="btn primary" href="#agent">Open agent</a>
+          <a class="btn ghost" href="#funnel">Funnel</a>
         </div>
       </div>
       <div class="hero-visual" aria-hidden="true">
@@ -63,7 +64,43 @@
       </div>
     </section>
 
-    <section class="console" id="funnel">
+    <section class="console" id="agent">
+      <div class="section-head">
+        <h2>Marketing agent</h2>
+        <p>
+          Drafts outreach and content from the funnel. <strong>Never sends.</strong>
+          You approve each item, then release to clipboard or a mail draft — you still hit Send.
+        </p>
+      </div>
+      <div class="policy-banner" role="note">
+        Nothing leaves this browser automatically. No SMTP, no social APIs, no silent outbound.
+      </div>
+      <div class="tool-panel">
+        <div class="tool-controls">
+          <label>
+            Focus funnel stage
+            <select id="agent-stage">
+              <option value="awareness">Awareness</option>
+              <option value="capture">Capture</option>
+              <option value="activation">Activation</option>
+              <option value="engagement">Engagement</option>
+              <option value="conversion">Conversion</option>
+              <option value="expansion">Expansion</option>
+            </select>
+          </label>
+          <label>
+            Max drafts
+            <input id="agent-max" type="number" min="1" max="8" value="5" />
+          </label>
+          <button type="button" class="btn primary" id="agent-propose">Propose drafts</button>
+          <button type="button" class="btn ghost" id="agent-clear-rejected">Clear rejected</button>
+        </div>
+        <p class="hint" id="agent-policy"></p>
+        <div class="agent-queue" id="agent-queue"></div>
+      </div>
+    </section>
+
+    <section class="console alt" id="funnel">
       <div class="section-head">
         <h2>Complete marketing funnel</h2>
         <p>

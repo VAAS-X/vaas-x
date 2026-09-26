@@ -9,6 +9,18 @@ Internal GTM tool locked to the **live product** on [vaasx.com](https://vaasx.co
 | SDK | `pip install vaas-x` · [vaasx.com](https://vaasx.com) |
 | MCP | [vaasxmcp](https://mcp.vaasx.com/mcp) · registry `io.github.VAAS-X/vaasxmcp` |
 
+## Marketing agent (human-in-the-loop)
+
+Section **Marketing agent** in the console:
+
+1. **Propose drafts** from a funnel stage (LinkedIn, outreach, nurture, ops checklist)  
+2. **Edit** → **Approve** or **Reject**  
+3. **Release** only after approve → clipboard copy or `mailto:` draft  
+
+**Hard rule in code:** no SMTP, no social APIs, no silent outbound. Your mail/social client still requires Send.
+
+Queue persists in `localStorage` (`vaasx_marketing_agent_queue_v1`).
+
 ## Complete funnel
 
 1. **Awareness** — site, GitHub, MCP registry, whitepapers  

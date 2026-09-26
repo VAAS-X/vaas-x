@@ -728,3 +728,76 @@ select {
     grid-template-columns: 1fr;
   }
 }
+
+/* Agent */
+.policy-banner {
+  margin: 0 0 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(154, 91, 18, 0.35);
+  background: rgba(154, 91, 18, 0.1);
+  color: var(--warn);
+  font-size: 0.92rem;
+  font-weight: 550;
+}
+
+.agent-queue {
+  display: grid;
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.agent-card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: white;
+  padding: 1rem;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.agent-card.status-awaiting_approval {
+  border-color: rgba(154, 91, 18, 0.35);
+}
+
+.agent-card.status-approved {
+  border-color: rgba(31, 122, 76, 0.4);
+}
+
+.agent-card.status-released {
+  opacity: 0.85;
+}
+
+.agent-card.status-rejected {
+  opacity: 0.55;
+}
+
+.agent-subject {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.agent-edit {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.agent-edit textarea {
+  width: 100%;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  line-height: 1.45;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.75rem;
+  resize: vertical;
+  background: #fbfcfe;
+  color: var(--ink);
+}
+
+.agent-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
