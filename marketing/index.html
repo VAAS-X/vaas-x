@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VAAS-X Marketing Console</title>
+  <meta name="description" content="Internal GTM console for VAAS-X and vaasxmcp — pitch copy, MCP demo, and outbound kits grounded in vaasx.com." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+  <div class="atmosphere" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="VAAS-X home">
+      <span class="brand-mark">VAAS-X</span>
+      <span class="brand-sub">Marketing Console</span>
+    </a>
+    <nav class="topnav">
+      <a href="#tools">Tools</a>
+      <a href="#demo">MCP Demo</a>
+      <a href="#outreach">Outreach</a>
+      <a class="nav-cta" href="https://vaasx.com" target="_blank" rel="noopener">vaasx.com</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">GTM for the shipped product</p>
+        <h1>VAAS-X</h1>
+        <p class="lede">
+          Pitch the substrate that already exists — the <code>vaas-x</code> SDK on
+          <a href="https://vaasx.com" target="_blank" rel="noopener">vaasx.com</a>
+          and <code>vaasxmcp</code> at
+          <a href="https://mcp.vaasx.com/mcp" target="_blank" rel="noopener">mcp.vaasx.com/mcp</a>.
+        </p>
+        <div class="cta-row">
+          <a class="btn primary" href="#tools">Open console</a>
+          <a class="btn ghost" href="https://vaasx.com" target="_blank" rel="noopener">Product site</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="orbit">
+          <div class="orbit-core">
+            <span>state</span>
+            <span class="arrow">→</span>
+            <span>action</span>
+            <span class="arrow">→</span>
+            <span>outcome</span>
+          </div>
+          <div class="orbit-ring r1"></div>
+          <div class="orbit-ring r2"></div>
+          <div class="orbit-ring r3"></div>
+          <div class="orbit-node n1">recall</div>
+          <div class="orbit-node n2">remember</div>
+          <div class="orbit-node n3">record_outcome</div>
+          <div class="orbit-node n4">14ms</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="surfaces" id="tools">
+      <div class="section-head">
+        <h2>Two surfaces. One substrate.</h2>
+        <p>Every message in this console maps to what is live today — not a roadmap.</p>
+      </div>
+      <div class="surface-grid">
+        <article class="surface">
+          <p class="surface-kicker">SDK</p>
+          <h3>vaas-x</h3>
+          <p>Persistent, outcome-grounded episodic memory for devices and agents. Install, connect a stream, recall what worked.</p>
+          <ul>
+            <li><code>pip install vaas-x</code></li>
+            <li>Bootstrap → ingest / query / outcome</li>
+            <li>CPU retrieval, no GPU, no vector DB to host</li>
+          </ul>
+          <a href="https://vaasx.com" target="_blank" rel="noopener">vaasx.com →</a>
+        </article>
+        <article class="surface">
+          <p class="surface-kicker">MCP</p>
+          <h3>vaasxmcp</h3>
+          <p>Same substrate as a remote MCP server for Claude and other clients — no SDK install required.</p>
+          <ul>
+            <li>Registry: <code>io.github.VAAS-X/vaasxmcp</code></li>
+            <li>URL: <code>https://mcp.vaasx.com/mcp</code></li>
+            <li>Tools: recall · remember · record_outcome · get_memory · await_pending</li>
+          </ul>
+          <a href="https://mcp.vaasx.com/mcp" target="_blank" rel="noopener">Open connector →</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="console" id="copy">
+      <div class="section-head">
+        <h2>Positioning kit</h2>
+        <p>Copy locked to the public product line. Pick a channel, copy, send.</p>
+      </div>
+      <div class="tool-panel">
+        <div class="tool-controls">
+          <label>
+            Channel
+            <select id="copy-channel">
+              <option value="one-liner">One-liner</option>
+              <option value="registry">MCP registry blurb</option>
+              <option value="linkedin">LinkedIn post</option>
+              <option value="email-short">Short email</option>
+              <option value="objection">Objection handler</option>
+              <option value="proof">Proof stack</option>
+            </select>
+          </label>
+          <label>
+            Audience
+            <select id="copy-audience">
+              <option value="agent-builder">Agent builder</option>
+              <option value="outbound-agency">Outbound agency</option>
+              <option value="cx-agency">CX / support agency</option>
+              <option value="enterprise">Enterprise AI / ops</option>
+              <option value="edge">Edge / robotics / industrial</option>
+            </select>
+          </label>
+          <button type="button" class="btn primary" id="gen-copy">Generate</button>
+          <button type="button" class="btn ghost" id="copy-copy">Copy</button>
+        </div>
+        <pre class="output" id="copy-output" aria-live="polite"></pre>
+      </div>
+    </section>
+
+    <section class="console alt" id="demo">
+      <div class="section-head">
+        <h2>vaasxmcp walkthrough</h2>
+        <p>Sales-demo simulation of the live MCP tool loop — recall what worked, remember, close with record_outcome.</p>
+      </div>
+      <div class="demo-grid">
+        <div class="demo-controls">
+          <label>
+            Scenario
+            <select id="demo-scenario">
+              <option value="support">Support next-reply</option>
+              <option value="outbound">Outbound follow-up</option>
+              <option value="agent">Agent tool choice</option>
+              <option value="maintenance">Predictive maintenance</option>
+            </select>
+          </label>
+          <label>
+            Query for <code>recall</code>
+            <input id="demo-query" type="text" placeholder="current situation…" />
+          </label>
+          <div class="cta-row wrap">
+            <button type="button" class="btn primary" id="run-recall">recall()</button>
+            <button type="button" class="btn ghost" id="run-remember">remember()</button>
+            <button type="button" class="btn ghost" id="run-outcome" disabled>record_outcome()</button>
+          </div>
+          <p class="hint">Connector: <code>https://mcp.vaasx.com/mcp</code> · Free key via <a href="https://vaasx.com" target="_blank" rel="noopener">vaasx.com</a></p>
+        </div>
+        <div class="demo-stage">
+          <div class="demo-log" id="demo-log"></div>
+          <div class="demo-hits" id="demo-hits"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="console" id="outreach">
+      <div class="section-head">
+        <h2>Agency outreach builder</h2>
+        <p>Wholesale pitch for agencies that already own a client decision loop. Prepaid credits + 48h log→oracle pilot.</p>
+      </div>
+      <div class="tool-panel">
+        <div class="tool-controls">
+          <label>
+            Agency type
+            <select id="agency-type">
+              <option value="outbound">Outbound / appointment-setting</option>
+              <option value="cx">CX / support</option>
+              <option value="ai">AI automation / agent shop</option>
+              <option value="revops">RevOps consultancy</option>
+            </select>
+          </label>
+          <label>
+            Agency name
+            <input id="agency-name" type="text" placeholder="Acme Outbound" />
+          </label>
+          <label>
+            Contact first name
+            <input id="agency-contact" type="text" placeholder="Alex" />
+          </label>
+          <button type="button" class="btn primary" id="gen-outreach">Build email</button>
+          <button type="button" class="btn ghost" id="copy-outreach">Copy</button>
+        </div>
+        <pre class="output" id="outreach-output" aria-live="polite"></pre>
+      </div>
+    </section>
+
+    <section class="console alt" id="sku">
+      <div class="section-head">
+        <h2>SKU quote slip</h2>
+        <p>Keep offers tied to what’s sellable now: free key → paid tiers on vaasx.com, plus fixed pilot work.</p>
+      </div>
+      <div class="sku-grid">
+        <label>
+          Offer
+          <select id="sku-offer">
+            <option value="credits">Prepaid decision / episode credits</option>
+            <option value="pilot">48h log → private oracle pilot</option>
+            <option value="mcp-team">MCP team seats + episode cap</option>
+            <option value="enterprise">Enterprise / on-prem conversation</option>
+          </select>
+        </label>
+        <label>
+          Price point (£)
+          <input id="sku-price" type="number" min="0" step="50" value="2500" />
+        </label>
+        <label>
+          Client / prospect
+          <input id="sku-client" type="text" placeholder="Prospect or agency" />
+        </label>
+        <button type="button" class="btn primary" id="gen-sku">Generate slip</button>
+        <button type="button" class="btn ghost" id="copy-sku">Copy</button>
+      </div>
+      <pre class="output" id="sku-output" aria-live="polite"></pre>
+    </section>
+
+    <section class="proof">
+      <div class="section-head">
+        <h2>Public proof — use these numbers only</h2>
+        <p>Pulled from vaasx.com / repo claims. Don’t invent metrics in outreach.</p>
+      </div>
+      <div class="proof-grid">
+        <div><strong>14ms</strong><span>mean retrieval @ 1.18M episodes (CPU)</span></div>
+        <div><strong>1.11ms</strong><span>desktop mean (i5-10600KF)</span></div>
+        <div><strong>100%</strong><span>CMAPSS blind channel ID</span></div>
+        <div><strong>mcp</strong><span>io.github.VAAS-X/vaasxmcp</span></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div>
+      <strong>VAAS-X</strong>
+      <span>Marketing Console · internal GTM aid</span>
+    </div>
+    <div class="footer-links">
+      <a href="https://vaasx.com" target="_blank" rel="noopener">vaasx.com</a>
+      <a href="https://mcp.vaasx.com/mcp" target="_blank" rel="noopener">vaasxmcp</a>
+      <a href="mailto:sales@vaasx.com">sales@vaasx.com</a>
+      <a href="mailto:hello@vaasx.com">hello@vaasx.com</a>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="./js/app.js" type="module"></script>
+</body>
+</html>
