@@ -1,6 +1,6 @@
 # VAAS-X Marketing Console
 
-Internal GTM tool locked to the **live product** on [vaasx.com](https://vaasx.com) — not speculative thread pitches.
+Internal GTM tool locked to the **live product** on [vaasx.com](https://vaasx.com).
 
 ## Product surfaces
 
@@ -9,14 +9,30 @@ Internal GTM tool locked to the **live product** on [vaasx.com](https://vaasx.co
 | SDK | `pip install vaas-x` · [vaasx.com](https://vaasx.com) |
 | MCP | [vaasxmcp](https://mcp.vaasx.com/mcp) · registry `io.github.VAAS-X/vaasxmcp` |
 
-## Console modules
+## Complete funnel
 
-1. **Positioning kit** — homepage-style pitches for site verticals (agents, predictive maintenance, mission/edge, sensitive data)
-2. **vaasxmcp demo** — simulated `recall` → `remember` → `record_outcome`
-3. **Product outreach** — free key, MCP connect, demo/pilot, Enterprise
-4. **Tier talk-track** — Free / Developer / Professional / Enterprise
+1. **Awareness** — site, GitHub, MCP registry, whitepapers  
+2. **Capture** — free API key (no card)  
+3. **Activation** — first ingest/remember + recall  
+4. **Engagement** — guides, docs, multi-device usage  
+5. **Conversion** — Developer / Professional  
+6. **Expansion** — Enterprise / on-prem / air-gap  
 
-Proof points are limited to published claims (14ms / 1.18M episodes, CMAPSS, MCP tools).
+## Contacts
+
+Filterable lead list in the console (`marketing/js/funnel-data.js`):
+
+- **Owned** — sales@ / hello@ / support@ / free-key & MCP cohorts  
+- **Ecosystem** — MCP registry, GitHub, Claude Connectors  
+- **Public channel** — verified org emails (e.g. `welcome@bytelake.com`, `contact@antmicro.com`)  
+- **Persona target** — role + company + public URL (no invented personal inboxes)
+
+## Other modules
+
+- Positioning kit (site verticals)  
+- vaasxmcp demo  
+- Product outreach  
+- Tier talk-track  
 
 ## Run
 

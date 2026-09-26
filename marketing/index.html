@@ -19,6 +19,8 @@
       <span class="brand-sub">Marketing Console</span>
     </a>
     <nav class="topnav">
+      <a href="#funnel">Funnel</a>
+      <a href="#contacts">Contacts</a>
       <a href="#product">Product</a>
       <a href="#copy">Copy</a>
       <a href="#demo">MCP</a>
@@ -37,7 +39,7 @@
           persistent, outcome-grounded episodic memory for devices and AI agents.
         </p>
         <div class="cta-row">
-          <a class="btn primary" href="#product">Open console</a>
+          <a class="btn primary" href="#funnel">Open funnel</a>
           <a class="btn ghost" href="https://vaasx.com" target="_blank" rel="noopener">vaasx.com</a>
         </div>
       </div>
@@ -61,10 +63,72 @@
       </div>
     </section>
 
+    <section class="console" id="funnel">
+      <div class="section-head">
+        <h2>Complete marketing funnel</h2>
+        <p>
+          Awareness → free key → first recall → guides → paid tiers → Enterprise.
+          Every stage maps to a live vaasx.com / vaasxmcp CTA.
+        </p>
+      </div>
+      <div class="funnel-board" id="funnel-board" aria-live="polite"></div>
+      <div class="funnel-detail" id="funnel-detail"></div>
+    </section>
+
+    <section class="console alt" id="contacts">
+      <div class="section-head">
+        <h2>Potential relevant contacts</h2>
+        <p>
+          Owned inboxes, ecosystem surfaces, public org channels, and persona targets by vertical.
+          Personal emails are not invented — use LinkedIn / contact forms where marked persona-target.
+        </p>
+      </div>
+      <div class="tool-panel">
+        <div class="tool-controls">
+          <label>
+            Funnel stage
+            <select id="contact-stage">
+              <option value="all">All stages</option>
+              <option value="awareness">Awareness</option>
+              <option value="capture">Capture</option>
+              <option value="activation">Activation</option>
+              <option value="engagement">Engagement</option>
+              <option value="conversion">Conversion</option>
+              <option value="expansion">Expansion</option>
+            </select>
+          </label>
+          <label>
+            Vertical
+            <select id="contact-vertical">
+              <option value="all">All verticals</option>
+              <option value="general">General</option>
+              <option value="agents">Agent memory</option>
+              <option value="maintenance">Predictive maintenance</option>
+              <option value="mission">Mission / edge</option>
+              <option value="sensitive">Sensitive / regulated</option>
+            </select>
+          </label>
+          <label>
+            Status
+            <select id="contact-status">
+              <option value="all">All statuses</option>
+              <option value="owned">Owned</option>
+              <option value="ecosystem">Ecosystem</option>
+              <option value="public-channel">Public channel</option>
+              <option value="persona-target">Persona target</option>
+            </select>
+          </label>
+          <button type="button" class="btn primary" id="filter-contacts">Filter</button>
+          <button type="button" class="btn ghost" id="export-contacts">Copy CSV</button>
+        </div>
+        <div class="contacts-grid" id="contacts-grid"></div>
+      </div>
+    </section>
+
     <section class="surfaces" id="product">
       <div class="section-head">
         <h2>What we sell today</h2>
-        <p>Same substrate, two entry points — copied from the live product, not thread brainstorms.</p>
+        <p>Same substrate, two entry points — copied from the live product on vaasx.com.</p>
       </div>
       <div class="surface-grid">
         <article class="surface">

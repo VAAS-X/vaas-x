@@ -1,3 +1,11 @@
+import {
+  FUNNEL,
+  CONTACTS,
+  VERTICAL_LABELS,
+  STAGE_LABELS,
+  STATUS_LABELS,
+} from "./funnel-data.js";
+
 const LINKS = {
   site: "https://vaasx.com",
   docs: "https://vaasx.com/docs",
@@ -332,6 +340,108 @@ function logLine(msg) {
 }
 
 let lastEpisodeId = null;
+let selectedStageId = FUNNEL[0].id;
+
+function contactsForStage(stageId) {
+  return CONTACTS.filter((c) => c.stage === stageId);
+}
+
+function showFunnelDetail(stageId) {
+  selectedStageId = stageId;
+  const stage = FUNNEL.find((s) => s.id === stageId);
+  const related = contactsForStage(stageId);
+  document.querySelectorAll(".funnel-step").forEach((el) => {
+    el.classList.toggle("active", el.dataset.stage === stageId);
+  });
+  $("funnel-detail").innerHTML = `
+    <div class="funnel-detail-card">
+      <p class="surface-kicker">Stage ${FUNNEL.findIndex((s) => s.id === stageId) + 1} / ${FUNNEL.length}</p>
+      <h3>${stage.name}</h3>
+      <p>${stage.goal}</p>
+      <div class="funnel-meta">
+        <div><strong>CTA</strong><span>${stage.cta}</span></div>
+        <div><strong>Metric</strong><span>${stage.metric}</span></div>
+        <div><strong>Next</strong><span>${stage.next ? STAGE_LABELS[stage.next] : "Retain / expand further"}</span></div>
+      </div>
+      <p class="funnel-label">Owned assets</p>
+      <ul>${stage.assets.map((a) => `<li>${a}</li>`).join("")}</ul>
+      <p class="funnel-label">Channels</p>
+      <ul>${stage.channels.map((a) => `<li>${a}</li>`).join("")}</ul>
+      <p class="funnel-label">Contacts mapped to this stage (${related.length})</p>
+      <ul>${related.map((c) => `<li><strong>${c.org}</strong> — ${c.contact}</li>`).join("") || "<li>None tagged</li>"}</ul>
+    </div>`;
+}
+
+function initFunnel() {
+  $("funnel-board").innerHTML = FUNNEL.map(
+    (s, i) => `
+    <button type="button" class="funnel-step ${i === 0 ? "active" : ""}" data-stage="${s.id}">
+      <span class="funnel-idx">${String(i + 1).padStart(2, "0")}</span>
+      <span class="funnel-name">${s.name}</span>
+      <span class="funnel-cta">${s.cta}</span>
+    </button>`
+  ).join("");
+  $("funnel-board").addEventListener("click", (e) => {
+    const btn = e.target.closest(".funnel-step");
+    if (!btn) return;
+    showFunnelDetail(btn.dataset.stage);
+  });
+  showFunnelDetail(FUNNEL[0].id);
+}
+
+function filteredContacts() {
+  const stage = $("contact-stage").value;
+  const vertical = $("contact-vertical").value;
+  const status = $("contact-status").value;
+  return CONTACTS.filter((c) => {
+    if (stage !== "all" && c.stage !== stage) return false;
+    if (vertical !== "all" && c.vertical !== vertical) return false;
+    if (status !== "all" && c.status !== status) return false;
+    return true;
+  });
+}
+
+function renderContacts() {
+  const list = filteredContacts();
+  $("contacts-grid").innerHTML =
+    list
+      .map(
+        (c) => `
+      <article class="contact-card status-${c.status}">
+        <div class="contact-top">
+          <strong>${c.org}</strong>
+          <span class="pill">${STATUS_LABELS[c.status]}</span>
+        </div>
+        <p class="contact-role">${c.name} · ${c.role}</p>
+        <p class="contact-why">${c.why}</p>
+        <div class="meta">
+          <span>${STAGE_LABELS[c.stage] || c.stage}</span>
+          <span>${VERTICAL_LABELS[c.vertical] || c.vertical}</span>
+        </div>
+        <a class="contact-link" href="${c.url}" target="_blank" rel="noopener">${c.contact}</a>
+      </article>`
+      )
+      .join("") || `<p class="hint">No contacts match these filters.</p>`;
+}
+
+function contactsCsv() {
+  const header = ["org", "name", "role", "vertical", "stage", "status", "channel", "contact", "url", "why"];
+  const rows = filteredContacts().map((c) =>
+    header
+      .map((k) => `"${String(c[k] ?? "").replaceAll('"', '""')}"`)
+      .join(",")
+  );
+  return [header.join(","), ...rows].join("\n");
+}
+
+function initContacts() {
+  renderContacts();
+  $("filter-contacts").addEventListener("click", renderContacts);
+  ["contact-stage", "contact-vertical", "contact-status"].forEach((id) => {
+    $(id).addEventListener("change", renderContacts);
+  });
+  $("export-contacts").addEventListener("click", () => copyText(contactsCsv()));
+}
 
 function initDemo() {
   const scenario = $("demo-scenario");
@@ -401,6 +511,8 @@ function init() {
   $("copy-tier").addEventListener("click", () => copyText($("tier-output").textContent));
   $("gen-tier").click();
 
+  initFunnel();
+  initContacts();
   initDemo();
 }
 
