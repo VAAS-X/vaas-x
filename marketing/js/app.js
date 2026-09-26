@@ -1,60 +1,56 @@
 const LINKS = {
   site: "https://vaasx.com",
+  docs: "https://vaasx.com/docs",
+  guides: "https://vaasx.com/guides",
   mcp: "https://mcp.vaasx.com/mcp",
   registry: "io.github.VAAS-X/vaasxmcp",
   sales: "sales@vaasx.com",
   hello: "hello@vaasx.com",
+  support: "support@vaasx.com",
 };
 
 const PROOF = [
-  "14ms mean retrieval across 1.18M episodes on standard CPU (no GPU)",
-  "1.11ms desktop mean on i5-10600KF",
-  "100% blind channel identification on NASA CMAPSS FD001",
-  "MCP live: recall / remember / record_outcome / get_memory / await_pending",
+  "14ms mean retrieval across 1.18M episodes on a standard AWS CPU instance — no GPU",
+  "1.11ms desktop mean on i5-10600KF (297× vs conventional search baseline in published table)",
+  "100% blind classification on NASA CMAPSS FD001 (24 unlabelled sensor channels, zero prior schema)",
+  "vaasxmcp live on the official MCP registry: recall / remember / record_outcome / get_memory / await_pending",
 ];
 
+const VERTICALS = {
+  agents: {
+    label: "agent builders",
+    gap: "Most agent frameworks lose memory when the session ends.",
+    pitch:
+      "VAAS-X fills that at the infrastructure level — agents recall prior sessions, decisions, and outcomes, with success-weighted recall.",
+  },
+  maintenance: {
+    label: "industrial / predictive-maintenance teams",
+    gap: "Most monitoring tells you after something has already failed.",
+    pitch:
+      "VAAS-X lets machines recall operational states that preceded faults across a fleet — Bootstrap connects sensor streams with no schema design.",
+  },
+  mission: {
+    label: "edge, UAV, and autonomous platform teams",
+    gap: "Mission platforms generate operational data every run — and discard it on shutdown.",
+    pitch:
+      "VAAS-X runs on-device (validated to ESP32-class hardware), accumulating persistent mission memory with no cloud round-trip.",
+  },
+  sensitive: {
+    label: "healthcare, finance, and defence teams",
+    gap: "Regulated buyers need cognition over sensitive operational data without careless exposure.",
+    pitch:
+      "VAAS-X ships encryption at rest and in transit on every tier; encrypted-data operation is available for custom Enterprise deployments — confirm current availability with sales.",
+  },
+  general: {
+    label: "teams evaluating AI memory infrastructure",
+    gap: "Vector databases find similar text. Chatbots generate answers.",
+    pitch:
+      "VAAS-X is operational memory infrastructure: state → action → outcome episodes, recalled by what worked — fixed infrastructure cost, not a per-query bill.",
+  },
+};
+
 const EPISODES = {
-  support: [
-    {
-      id: "ep_sup_184",
-      text: "Billing dispute after plan downgrade — clarified prorated credit + sent receipt link",
-      outcome: "success",
-      score: 0.91,
-    },
-    {
-      id: "ep_sup_201",
-      text: "Same billing dispute — offered refund without checking invoice history",
-      outcome: "failure",
-      score: 0.88,
-    },
-    {
-      id: "ep_sup_156",
-      text: "Angry churn risk — acknowledged delay, gave exact restore ETA, followed up once",
-      outcome: "success",
-      score: 0.84,
-    },
-  ],
-  outbound: [
-    {
-      id: "ep_out_77",
-      text: "Follow-up after no-reply: one-line value + single CTA to 15-min slot",
-      outcome: "success",
-      score: 0.89,
-    },
-    {
-      id: "ep_out_62",
-      text: "Follow-up with long feature list and three links",
-      outcome: "failure",
-      score: 0.86,
-    },
-    {
-      id: "ep_out_91",
-      text: "Breakup email referencing their published hiring post for SDRs",
-      outcome: "success",
-      score: 0.82,
-    },
-  ],
-  agent: [
+  agents: [
     {
       id: "ep_ag_33",
       text: "Ambiguous user ask — recalled prior successful plan, chose search then act",
@@ -94,13 +90,76 @@ const EPISODES = {
       score: 0.84,
     },
   ],
+  mission: [
+    {
+      id: "ep_mis_07",
+      text: "GPS degrade near canopy — switched to prior successful visual-hold pattern",
+      outcome: "success",
+      score: 0.92,
+    },
+    {
+      id: "ep_mis_04",
+      text: "Same degrade — continued waypoint track and drifted off corridor",
+      outcome: "failure",
+      score: 0.86,
+    },
+    {
+      id: "ep_mis_11",
+      text: "Battery cliff mid-mission — recalled abort altitude that preserved airframe",
+      outcome: "success",
+      score: 0.83,
+    },
+  ],
+  sensitive: [
+    {
+      id: "ep_sec_15",
+      text: "Access request with incomplete justification — recalled prior deny+escalate path",
+      outcome: "success",
+      score: 0.9,
+    },
+    {
+      id: "ep_sec_10",
+      text: "Same request pattern — auto-approved from similarity alone",
+      outcome: "failure",
+      score: 0.84,
+    },
+    {
+      id: "ep_sec_19",
+      text: "Audit follow-up — retrieved successful remediation episode with full trail",
+      outcome: "success",
+      score: 0.82,
+    },
+  ],
 };
 
 const DEFAULT_QUERIES = {
-  support: "customer angry about unexpected charge after downgrade",
-  outbound: "prospect opened email but did not reply after two days",
-  agent: "user asks to update production config but request is underspecified",
+  agents: "user asks to update production config but request is underspecified",
   maintenance: "engine running hot with rising vibration",
+  mission: "GPS degrade under canopy mid-waypoint",
+  sensitive: "access request missing business justification",
+};
+
+const TIERS = {
+  free: {
+    title: "Free",
+    body:
+      "Instant API key from vaasx.com — no card required. Enough to install the SDK or connect vaasxmcp and store/recall episodes on the free tier limits.",
+  },
+  developer: {
+    title: "Developer",
+    body:
+      "Self-serve paid tier (£19/mo per published marketing) with higher episode limits for builders wiring SDK or MCP into real workloads.",
+  },
+  professional: {
+    title: "Professional",
+    body:
+      "Self-serve paid tier (£99/mo per published marketing) for higher limits and additional capabilities such as multi-device federation.",
+  },
+  enterprise: {
+    title: "Enterprise",
+    body:
+      "Contract-based: on-prem, air-gapped, and compliance-sensitive deployments. Encrypted-data operation for custom Enterprise — confirm current availability with sales@vaasx.com.",
+  },
 };
 
 function $(id) {
@@ -120,134 +179,124 @@ async function copyText(text) {
   toast("Copied");
 }
 
-function audienceNoun(audience) {
-  return {
-    "agent-builder": "agent builders",
-    "outbound-agency": "outbound / SDR agencies",
-    "cx-agency": "CX and support agencies",
-    enterprise: "enterprise AI and ops buyers",
-    edge: "edge, robotics, and industrial teams",
-  }[audience];
-}
-
-function buildCopy(channel, audience) {
-  const who = audienceNoun(audience);
-  const mcpLine = `Add VAAS-X Cognitive Memory (vaasxmcp): ${LINKS.mcp}`;
-  const sdkLine = `SDK: pip install vaas-x · ${LINKS.site}`;
+function buildCopy(channel, verticalKey) {
+  const v = VERTICALS[verticalKey];
+  const sdk = `pip install vaas-x · ${LINKS.site}`;
+  const mcp = `MCP connector: ${LINKS.mcp} (${LINKS.registry})`;
 
   const map = {
-    "one-liner": `VAAS-X gives ${who} persistent, outcome-grounded memory — recall what actually worked, not just what’s similar. ${sdkLine} · MCP ${LINKS.mcp}`,
+    "one-liner":
+      `Your systems forget everything. VAAS-X makes them remember — persistent, outcome-grounded episodic memory for ${v.label}. ${sdk}. ${mcp}.`,
+
+    homepage:
+      `${v.gap}\n\n` +
+      `${v.pitch}\n\n` +
+      `This is not a chatbot. This is not a vector database. This is operational memory infrastructure.\n\n` +
+      `Start: ${sdk}\n${mcp}\nFree API key (no card): ${LINKS.site}`,
 
     registry:
       `Persistent, outcome-grounded episodic memory for Claude and MCP clients. ` +
       `vaasxmcp stores state → action → outcome episodes so recall() can prefer what worked. ` +
       `Same substrate as the vaas-x SDK — 14ms CPU retrieval across 1.18M episodes, no GPU, no vector DB to run yourself. ` +
-      `Connector: ${LINKS.mcp} · Registry: ${LINKS.registry}`,
+      `Connector: ${LINKS.mcp} · Registry: ${LINKS.registry} · Product: ${LINKS.site}`,
 
     linkedin:
-      `Most agent “memory” is either a resetting context window or a vector DB that only finds what’s similar.\n\n` +
-      `VAAS-X is neither.\n\n` +
-      `It stores what happened as state → action → outcome, then recalls what worked — on CPU, in milliseconds.\n\n` +
-      `Two ways in for ${who}:\n` +
-      `• SDK: pip install vaas-x (${LINKS.site})\n` +
-      `• MCP: ${LINKS.mcp} (${LINKS.registry})\n\n` +
-      `Free API key, no card. If you’re wiring agents or client workflows this week, start there.`,
+      `Most AI systems are stateless — they process data and discard it.\n\n` +
+      `VAAS-X gives ${v.label} a permanent, searchable record of operational experience: what was observed, what action was taken, what the outcome was — recalled in milliseconds on CPU.\n\n` +
+      `${v.gap} ${v.pitch}\n\n` +
+      `• SDK: ${sdk}\n` +
+      `• MCP: ${mcp}\n` +
+      `• Free API key at ${LINKS.site} — no card\n\n` +
+      `Docs: ${LINKS.docs}`,
 
     "email-short":
-      `Subject: Outcome-grounded memory for your stack (VAAS-X / vaasxmcp)\n\n` +
-      `Hi — quick note for ${who}.\n\n` +
-      `VAAS-X is persistent episodic memory infrastructure: ingest state/action/outcome, recall what worked, close the loop with outcomes.\n\n` +
-      `${sdkLine}\n${mcpLine}\n\n` +
-      `Proof points we use publicly:\n- ${PROOF[0]}\n- ${PROOF[2]}\n\n` +
-      `If useful, I can run a short pilot on your logs or agent traces.\n\n` +
-      `— VAAS-X · ${LINKS.sales}`,
+      `Subject: Persistent memory for ${v.label} (VAAS-X)\n\n` +
+      `Hi — sharing VAAS-X, the product at ${LINKS.site}.\n\n` +
+      `${v.gap}\n${v.pitch}\n\n` +
+      `Two ways in:\n` +
+      `1) SDK — ${sdk}\n` +
+      `2) MCP — add ${LINKS.mcp} in Claude Connectors (registry ${LINKS.registry})\n\n` +
+      `Public proof we use:\n- ${PROOF[0]}\n- ${PROOF[2]}\n\n` +
+      `Happy to arrange a demo or pilot on your stream: ${LINKS.sales}\n\n` +
+      `— VAAS-X`,
 
     objection:
       `Objection: “We already have a vector database / chatbot memory.”\n\n` +
-      `Response: Those find nearest text. VAAS-X stores operational episodes (state → action → outcome) and ranks toward what worked. ` +
-      `That’s why recall defaults to success-weighted ranking on vaasxmcp. ` +
-      `It’s infrastructure with predictable cost — not a per-query chat memory bill. Demo path: free key on ${LINKS.site}, connector ${LINKS.mcp}.`,
+      `Response (from product positioning): Vector DBs find semantically similar content. Chatbots generate responses. ` +
+      `VAAS-X stores operational experience as state → action → outcome and recalls what produced the best outcomes — ` +
+      `on CPU, without a per-query memory bill. Demo path: free key on ${LINKS.site}, MCP at ${LINKS.mcp}, docs at ${LINKS.docs}.`,
 
     proof:
-      `Public proof stack (use only these):\n` +
+      `Public proof stack (vaasx.com / published benchmarks only):\n` +
       PROOF.map((p) => `• ${p}`).join("\n") +
-      `\n• Product: ${LINKS.site}\n• MCP: ${LINKS.mcp}\n• Registry: ${LINKS.registry}\n• Sales: ${LINKS.sales}`,
+      `\n• Product: ${LINKS.site}\n• Docs: ${LINKS.docs}\n• Guides: ${LINKS.guides}\n• MCP: ${LINKS.mcp}\n• Sales: ${LINKS.sales}`,
   };
 
   return map[channel];
 }
 
-function buildOutreach({ type, name, contact }) {
-  const agency = name.trim() || "your team";
+function buildOutreach({ intent, vertical, contact, company }) {
+  const v = VERTICALS[vertical];
   const hi = contact.trim() || "there";
-  const angles = {
-    outbound: {
-      loop: "reply → meeting booked",
-      hook: "next follow-up that historically got the meeting",
+  const co = company.trim() || "your team";
+
+  const intents = {
+    "free-key": {
+      subject: `Free VAAS-X API key for ${co}`,
+      ask: `If useful, grab a free API key (no card) at ${LINKS.site}, then either pip install vaas-x or connect ${LINKS.mcp} in Claude.`,
     },
-    cx: {
-      loop: "ticket → resolved / CSAT",
-      hook: "next reply that historically closed similar tickets",
+    mcp: {
+      subject: `Add VAAS-X memory to Claude (vaasxmcp)`,
+      ask:
+        `In Claude: Settings → Connectors → add ${LINKS.mcp}, authorize with your VAAS-X API key from ${LINKS.site}. ` +
+        `Registry id: ${LINKS.registry}.`,
     },
-    ai: {
-      loop: "agent tool choice → task success",
-      hook: "wholesale outcome memory you can mark up into client agent builds",
+    demo: {
+      subject: `VAAS-X demo / pilot for ${co}`,
+      ask:
+        `If you want memory running on your data stream, reply and we’ll schedule a demo or pilot deployment — ${LINKS.sales}.`,
     },
-    revops: {
-      loop: "sequence step → SQL / pipeline movement",
-      hook: "decision layer on top of the sequences you already run",
+    enterprise: {
+      subject: `VAAS-X Enterprise for ${co}`,
+      ask:
+        `For on-prem, air-gapped, or compliance-sensitive deployments, the path is Enterprise via ${LINKS.sales}. ` +
+        `Encrypted-data operation for custom Enterprise — confirm current availability with us.`,
     },
   };
-  const a = angles[type];
+
+  const i = intents[intent];
 
   return (
-    `Subject: Wholesale VAAS-X memory for ${agency} clients\n\n` +
+    `Subject: ${i.subject}\n\n` +
     `Hi ${hi},\n\n` +
-    `I work on VAAS-X — outcome-grounded episodic memory used via the vaas-x SDK and vaasxmcp (${LINKS.mcp}).\n\n` +
-    `${agency} already owns a measurable loop (${a.loop}). We’re offering agencies a simple package:\n` +
-    `1) Prepaid episode / decision credits on the live substrate\n` +
-    `2) A 48-hour pilot: load one client queue/log → private recall endpoint biased to what worked\n\n` +
-    `Positioning for your clients: ${a.hook} — not another chatbot.\n\n` +
-    `Public proof we stick to: ${PROOF[0]}; MCP tools recall / remember / record_outcome.\n\n` +
-    `If you’re open to it, I’ll send a one-page SKU and we pick a single client workflow.\n\n` +
-    `Best,\nVAAS-X\n${LINKS.sales}\n${LINKS.site}`
+    `I’m reaching out about VAAS-X — persistent, outcome-grounded episodic memory for devices and AI agents (${LINKS.site}).\n\n` +
+    `For ${v.label}: ${v.gap} ${v.pitch}\n\n` +
+    `Product surfaces:\n` +
+    `• SDK: pip install vaas-x\n` +
+    `• MCP: ${LINKS.mcp}\n` +
+    `• Docs: ${LINKS.docs}\n\n` +
+    `Proof we cite publicly: ${PROOF[0]}; ${PROOF[2]}.\n\n` +
+    `${i.ask}\n\n` +
+    `Best,\nVAAS-X\n${LINKS.hello} · ${LINKS.sales}`
   );
 }
 
-function buildSku({ offer, price, client }) {
-  const who = client.trim() || "[Prospect]";
-  const labels = {
-    credits: "Prepaid decision / episode credits",
-    pilot: "48h log → private oracle pilot",
-    "mcp-team": "MCP team seats + episode cap",
-    enterprise: "Enterprise / on-prem conversation starter",
-  };
-  const bodies = {
-    credits:
-      `Access to VAAS-X substrate via API and/or vaasxmcp (${LINKS.mcp}). ` +
-      `Credits apply to episode volume / decision calls. Free key remains the top-of-funnel; this is the paid pack.`,
-    pilot:
-      `Fixed-scope pilot: receive one client log/ticket/agent trace dump, stand up a private memory store, ` +
-      `demonstrate recall() preferring successful outcomes, hand back a short readout + connector instructions.`,
-    "mcp-team":
-      `Team usage of vaasxmcp with shared account controls and higher episode limits. ` +
-      `Connector URL ${LINKS.mcp}; registry ${LINKS.registry}. Upgrade path from free key on ${LINKS.site}.`,
-    enterprise:
-      `Discovery toward on-prem / air-gapped / compliance-sensitive deployment. ` +
-      `Start from public product facts on ${LINKS.site}; route to ${LINKS.sales}.`,
-  };
-
+function buildTier({ tier, prospect }) {
+  const t = TIERS[tier];
+  const who = prospect.trim() || "[Prospect]";
   return (
-    `VAAS-X SKU SLIP\n` +
-    `================\n` +
+    `VAAS-X TIER TALK-TRACK\n` +
+    `======================\n` +
     `Prospect: ${who}\n` +
-    `Offer: ${labels[offer]}\n` +
-    `Quote: £${Number(price).toLocaleString("en-GB")}\n` +
-    `Product surfaces: vaas-x SDK (${LINKS.site}) · vaasxmcp (${LINKS.mcp})\n\n` +
-    `Scope:\n${bodies[offer]}\n\n` +
-    `Proof allowed in this quote:\n` +
+    `Tier: ${t.title}\n` +
+    `Product: ${LINKS.site}\n` +
+    `MCP: ${LINKS.mcp}\n\n` +
+    `${t.body}\n\n` +
+    `Category line: Not a better vector database — operational memory infrastructure.\n` +
+    `How it works: Connect → Accumulate → Recall → Improve.\n\n` +
+    `Proof allowed:\n` +
     PROOF.map((p) => `- ${p}`).join("\n") +
-    `\n\nNext step: prepaid acceptance → schedule load / key issuance\nContact: ${LINKS.sales}`
+    `\n\nCTA: ${LINKS.site} · ${LINKS.sales}`
   );
 }
 
@@ -288,8 +337,9 @@ function initDemo() {
   const scenario = $("demo-scenario");
   const query = $("demo-query");
   query.value = DEFAULT_QUERIES[scenario.value];
-  $("demo-log").textContent = "Ready. Connector target: https://mcp.vaasx.com/mcp\n";
-  $("demo-hits").innerHTML = `<p class="hint" style="margin:0;color:var(--muted)">Run recall() to surface outcome-weighted episodes.</p>`;
+  $("demo-log").textContent = `Ready. Product: ${LINKS.site}\nConnector: ${LINKS.mcp}\n`;
+  $("demo-hits").innerHTML =
+    `<p class="hint" style="margin:0;color:var(--muted)">Run recall() to surface outcome-weighted episodes for this vertical.</p>`;
 
   scenario.addEventListener("change", () => {
     query.value = DEFAULT_QUERIES[scenario.value];
@@ -325,7 +375,7 @@ function initDemo() {
 }
 
 function init() {
-  $("copy-output").textContent = buildCopy("one-liner", "agent-builder");
+  $("copy-output").textContent = buildCopy("one-liner", "agents");
   $("gen-copy").addEventListener("click", () => {
     $("copy-output").textContent = buildCopy($("copy-channel").value, $("copy-audience").value);
   });
@@ -333,23 +383,23 @@ function init() {
 
   $("gen-outreach").addEventListener("click", () => {
     $("outreach-output").textContent = buildOutreach({
-      type: $("agency-type").value,
-      name: $("agency-name").value,
-      contact: $("agency-contact").value,
+      intent: $("outreach-intent").value,
+      vertical: $("outreach-vertical").value,
+      contact: $("outreach-contact").value,
+      company: $("outreach-company").value,
     });
   });
   $("copy-outreach").addEventListener("click", () => copyText($("outreach-output").textContent));
   $("gen-outreach").click();
 
-  $("gen-sku").addEventListener("click", () => {
-    $("sku-output").textContent = buildSku({
-      offer: $("sku-offer").value,
-      price: $("sku-price").value,
-      client: $("sku-client").value,
+  $("gen-tier").addEventListener("click", () => {
+    $("tier-output").textContent = buildTier({
+      tier: $("tier-pick").value,
+      prospect: $("tier-prospect").value,
     });
   });
-  $("copy-sku").addEventListener("click", () => copyText($("sku-output").textContent));
-  $("gen-sku").click();
+  $("copy-tier").addEventListener("click", () => copyText($("tier-output").textContent));
+  $("gen-tier").click();
 
   initDemo();
 }
