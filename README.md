@@ -4,6 +4,7 @@
 [![Python](https://img.shields.io/pypi/pyversions/vaas-x.svg)](https://pypi.org/project/vaas-x/)
 [![License](https://img.shields.io/badge/license-proprietary-lightgrey.svg)](LICENSE)
 [![mcptry](https://mcptry.com/badge/io.github.VAAS-X/vaasxmcp)](https://mcptry.com/servers/io.github.VAAS-X/vaasxmcp)
+[![VAAS-X Cognitive Memory MCP connector – tool definition quality and endpoint health on Glama](https://glama.ai/mcp/connectors/io.github.VAAS-X/vaasxmcp/badges/score.svg)](https://glama.ai/mcp/connectors/io.github.VAAS-X/vaasxmcp)
 
 Persistent, outcome-grounded memory for AI agents and connected devices.
 
