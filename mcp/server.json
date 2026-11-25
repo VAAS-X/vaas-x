@@ -2,12 +2,12 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.VAAS-X/vaasxmcp",
   "title": "VAAS-X Cognitive Memory",
-  "description": "Persistent, outcome-grounded episodic memory for Claude. 14ms CPU retrieval, no GPU, no vector DB.",
+  "description": "Outcome-grounded memory for AI agents: recall ranked by what worked, a job queue, linked accounts.",
   "repository": {
     "url": "https://github.com/VAAS-X/vaas-x",
     "source": "github"
   },
-  "version": "1.0.0",
+  "version": "1.1.0",
   "remotes": [
     {
       "type": "streamable-http",
