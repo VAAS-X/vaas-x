@@ -5,6 +5,7 @@
 [![License](https://img.shields.io/badge/license-proprietary-lightgrey.svg)](LICENSE)
 [![mcptry](https://mcptry.com/badge/io.github.VAAS-X/vaasxmcp)](https://mcptry.com/servers/io.github.VAAS-X/vaasxmcp)
 [![VAAS-X Cognitive Memory MCP connector – tool definition quality and endpoint health on Glama](https://glama.ai/mcp/connectors/io.github.VAAS-X/vaasxmcp/badges/score.svg)](https://glama.ai/mcp/connectors/io.github.VAAS-X/vaasxmcp)
+[![Listed on MCPNav](https://mcpnav.net/badge/vaasxmcp.svg)](https://mcpnav.net/server/vaasxmcp/)
 
 Episodic memory that persists, for AI agents and connected devices. It keeps what happened, what was done and how it turned out, and brings back what worked.
 
